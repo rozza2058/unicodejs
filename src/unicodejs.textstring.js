@@ -5,6 +5,8 @@
  * @license The MIT License (MIT); see LICENSE.txt
  */
 
+var graphemebreak = require('./unicodejs.graphemebreak');
+
 /**
  * This class provides a simple interface to fetching plain text
  * from a data source. The base class reads data from a string, but
@@ -15,8 +17,8 @@
  * @constructor
  * @param {string} text Text
  */
-unicodeJS.TextString = function UnicodeJSTextString( text ) {
-	this.clusters = unicodeJS.graphemebreak.splitClusters( text );
+var TextString = function UnicodeJSTextString( text ) {
+	this.clusters = graphemebreak.splitClusters( text );
 };
 
 /* Methods */
@@ -28,7 +30,7 @@ unicodeJS.TextString = function UnicodeJSTextString( text ) {
  * @param {number} position Position to read from
  * @return {string|null} Grapheme cluster, or null if out of bounds
  */
-unicodeJS.TextString.prototype.read = function ( position ) {
+TextString.prototype.read = function ( position ) {
 	var clusterAt = this.clusters[ position ];
 	return clusterAt !== undefined ? clusterAt : null;
 };
@@ -39,7 +41,7 @@ unicodeJS.TextString.prototype.read = function ( position ) {
  * @method
  * @return {number} Number of grapheme clusters
  */
-unicodeJS.TextString.prototype.getLength = function () {
+TextString.prototype.getLength = function () {
 	return this.clusters.length;
 };
 
@@ -50,8 +52,8 @@ unicodeJS.TextString.prototype.getLength = function () {
  * @param {number} end End offset
  * @return {unicodeJS.TextString} New TextString object containing substring
  */
-unicodeJS.TextString.prototype.substring = function ( start, end ) {
-	var textString = new unicodeJS.TextString( '' );
+TextString.prototype.substring = function ( start, end ) {
+	var textString = new TextString( '' );
 	textString.clusters = this.clusters.slice( start, end );
 	return textString;
 };
@@ -61,6 +63,8 @@ unicodeJS.TextString.prototype.substring = function ( start, end ) {
  *
  * @return {string} Plain javascript string
  */
-unicodeJS.TextString.prototype.getString = function () {
+TextString.prototype.getString = function () {
 	return this.clusters.join( '' );
 };
+
+module.exports = TextString;

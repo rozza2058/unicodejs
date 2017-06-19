@@ -7,20 +7,21 @@
  * @copyright 2013–2015 UnicodeJS team and others; see AUTHORS.txt
  * @license The MIT License (MIT); see LICENSE.txt
  */
-( function () {
 	var property,
-		properties = unicodeJS.wordbreakproperties,
+		properties = require('./unicodejs.wordbreakproperties'),
+		charRangeArrayRegexp = require('./unicodejs').charRangeArrayRegexp,
+    splitCharacters = require('./unicodejs').splitCharacters,
 		/**
 		 * @class unicodeJS.wordbreak
 		 * @singleton
 		 */
-		wordbreak = unicodeJS.wordbreak = {},
+		wordbreak = {},
 		patterns = {};
 
 	// build regexes
 	for ( property in properties ) {
 		patterns[ property ] = new RegExp(
-			unicodeJS.charRangeArrayRegexp( properties[ property ] )
+			charRangeArrayRegexp( properties[ property ] )
 		);
 	}
 
@@ -50,7 +51,7 @@
 		if ( typeof cluster !== 'string' ) {
 			return null;
 		}
-		character = unicodeJS.splitCharacters( cluster )[ 0 ];
+		character = splitCharacters( cluster )[ 0 ];
 		for ( property in patterns ) {
 			if ( patterns[ property ].test( character ) ) {
 				return property;
@@ -99,7 +100,7 @@
 		// Search backwards for the previous break point
 		while ( string.read( i + readCharOffset ) !== null ) {
 			i += direction;
-			if ( unicodeJS.wordbreak.isBreak( string, i ) ) {
+			if ( wordbreak.isBreak( string, i ) ) {
 				// Check previous character was alpha-numeric if required
 				if ( onlyAlphaNumeric ) {
 					lastProperty = getProperty(
@@ -256,4 +257,5 @@
 		// WB14: Any ÷ Any
 		return true;
 	};
-}() );
+
+	module.exports = wordbreak;

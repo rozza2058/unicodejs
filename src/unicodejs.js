@@ -5,7 +5,6 @@
  * @license The MIT License (MIT); see LICENSE.txt
  */
 
-( function () {
 	var unicodeJS;
 
 	/**
@@ -215,5 +214,4 @@
 
 	// Expose
 	/* eslint-env browser */
-	window.unicodeJS = unicodeJS;
-}() );
+	module.exports = unicodeJS;

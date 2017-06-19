@@ -7,21 +7,21 @@
  * @copyright 2013–2015 UnicodeJS team and others; see AUTHORS.txt
  * @license The MIT License (MIT); see LICENSE.txt
  */
-( function () {
 	var property, disjunction, graphemeBreakRegexp,
-		properties = unicodeJS.graphemebreakproperties,
+		properties = require('./unicodejs.graphemebreakproperties'),
+		charRangeArrayRegexp = require('./unicodejs').charRangeArrayRegexp,
 		// Single unicode character (either a UTF-16 code unit or a surrogate pair)
 		oneCharacter = '[^\\ud800-\\udfff]|[\\ud800-\\udbff][\\udc00-\\udfff]',
 		/**
 		 * @class unicodeJS.graphemebreak
 		 * @singleton
 		 */
-		graphemebreak = unicodeJS.graphemebreak = {},
+		graphemebreak = {},
 		patterns = {};
 
 	// build regexes
 	for ( property in properties ) {
-		patterns[ property ] = unicodeJS.charRangeArrayRegexp( properties[ property ] );
+		patterns[ property ] = charRangeArrayRegexp( properties[ property ] );
 	}
 
 	// build disjunction for grapheme cluster split
@@ -102,4 +102,5 @@
 		}
 		return clusters;
 	};
-}() );
+
+	module.exports = graphemebreak;
