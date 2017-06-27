@@ -2,6 +2,9 @@
   "name": "bs-unicodejs",
   "version": "0.2.0",
   "description": "A library for working with the Unicode standard",
+  "publishConfig": {
+    "registry": "http://nexus22.bs.lan/repository/npm-internal/"
+  },
   "keywords": [
     "unicode"
   ],
